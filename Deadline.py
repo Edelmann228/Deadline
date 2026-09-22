@@ -77,3 +77,8 @@ def classify_architecture(n_cpu: int, has_network: bool) -> str:
     if n_cpu == 1:
         return "однопроцессорная"
     return "многопроцессорная"
+## форматирование чисел с плавающей точкой
+def format_number(value: float) -> str:
+    if value.is_integer():
+        return str(int(value))
+    return f"{value:.2f}"

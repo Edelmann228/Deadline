@@ -38,3 +38,10 @@ def slack(task: Task) -> float:
 ##Проверка, выполнима ли конкретная задача в изолированных условиях.
 def is_feasible(task: Task) -> bool:
     return slack(task) >= 0
+## определение категории дедлайна
+def deadline_type(task: Task) -> str:
+    if task.D == task.T:
+        return "неявный"
+    if task.D < task.T:
+        return "ограниченный"
+    return "произвольный"

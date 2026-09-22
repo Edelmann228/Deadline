@@ -88,3 +88,15 @@ def print_table(tasks: List[Task]) -> None:
         "Задача", "Класс", "C", "D", "T",
         "L", "Выполнимо", "Тип дедлайна"
     ]
+    rows = []
+    for task in tasks:
+        rows.append([
+            task.name,
+            task.task_class,
+            format_number(task.C),
+            format_number(task.D),
+            format_number(task.T),
+            format_number(slack(task)),
+            "да" if is_feasible(task) else "нет",
+            deadline_type(task)
+        ])

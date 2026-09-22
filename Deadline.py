@@ -51,3 +51,11 @@ def classify_system(tasks: List[Task]) -> str:
         if task.task_class == "жёсткое":
             return "жёсткого реального времени"
     return "мягкого реального времени"
+## нахождение критической задачи
+def critical_task(tasks: List[Task]) -> Optional[Task]:
+    hard_tasks = [task for task in tasks if task.task_class == "жёсткое"]
+
+    if not hard_tasks:
+        return None
+
+    return min(hard_tasks, key=slack)

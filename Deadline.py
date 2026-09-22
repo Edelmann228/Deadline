@@ -35,3 +35,6 @@ def load_data(file_path: str):
 ##Расчет временного резерва
 def slack(task: Task) -> float:
     return task.D - task.C
+##Проверка, выполнима ли конкретная задача в изолированных условиях.
+def is_feasible(task: Task) -> bool:
+    return slack(task) >= 0

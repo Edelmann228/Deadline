@@ -100,3 +100,8 @@ def print_table(tasks: List[Task]) -> None:
             "да" if is_feasible(task) else "нет",
             deadline_type(task)
         ])
+        widths = [len(header) for header in headers]
+
+    for row in rows:
+        for index, value in enumerate(row):
+            widths[index] = max(widths[index], len(value))

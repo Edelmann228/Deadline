@@ -45,3 +45,9 @@ def deadline_type(task: Task) -> str:
     if task.D < task.T:
         return "ограниченный"
     return "произвольный"
+## определение строгости системы
+def classify_system(tasks: List[Task]) -> str:
+    for task in tasks:
+        if task.task_class == "жёсткое":
+            return "жёсткого реального времени"
+    return "мягкого реального времени"

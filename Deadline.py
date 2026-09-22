@@ -70,3 +70,10 @@ def required_reaction_time(tasks: List[Task]) -> float:
 ## Рассчет суммарного коэффициентфа загрузки вычислительной системы
 def utilization(tasks: List[Task]) -> float:
     return sum(task.C / task.T for task in tasks)
+##Классификация архитектуры вычислительной системы по числу процессоров и наличию сетевых связей.
+def classify_architecture(n_cpu: int, has_network: bool) -> str:
+    if has_network:
+        return "распределённая"
+    if n_cpu == 1:
+        return "однопроцессорная"
+    return "многопроцессорная"

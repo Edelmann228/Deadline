@@ -67,3 +67,6 @@ def required_reaction_time(tasks: List[Task]) -> float:
         return min(task.D for task in hard_tasks)
 
     return min(task.D for task in tasks)
+## Рассчет суммарного коэффициентфа загрузки вычислительной системы
+def utilization(tasks: List[Task]) -> float:
+    return sum(task.C / task.T for task in tasks)

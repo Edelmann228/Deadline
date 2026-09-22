@@ -2,6 +2,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
+import sys
 
 ##cоздание класса данных
 @dataclass
@@ -105,3 +106,83 @@ def print_table(tasks: List[Task]) -> None:
     for row in rows:
         for index, value in enumerate(row):
             widths[index] = max(widths[index], len(value))
+    for row in rows:
+        for index, value in enumerate(row):
+            widths[index] = max(widths[index], len(value))
+
+    separator = "+-" + "-+-".join("-" * width for width in widths) + "-+"
+
+    print(separator)
+    print("| " + " | ".join(
+        headers[index].ljust(widths[index])
+        for index in range(len(headers))
+    ) + " |")
+    print(separator)
+
+    for row in rows:
+        print("| " + " | ".join(
+            row[index].ljust(widths[index])
+            for index in range(len(row))
+        ) + " |")
+
+    print(separator)
+
+def print_conclusion(
+    tasks: List[Task],
+    system_name: str,
+    n_cpu: int,
+    has_network: bool
+) -> None:
+    system_class = classify_system(tasks)
+    critical = critical_task(tasks)
+    reaction_time = required_reaction_time(tasks)
+    load = utilization(tasks)
+    architecture = classify_architecture(n_cpu, has_network)
+
+    all_deadlines_feasible = all(is_feasible(task) for task in tasks)
+
+    print("\nЗаключение:")
+    print(f"Система: {system_name}.")
+    print(f"Класс системы: {system_class}.")
+
+    if critical is not None:
+        print(
+            f"Критическая задача: «{critical.name}», "
+            f"L = {format_number(slack(critical))} мс."
+        )
+    else:
+        print("Критическая задача: отсутствует, так как жёстких задач нет.")
+
+    print(f"Требуемое время реакции R_треб = {format_number(reaction_time)} мс.")
+    print(f"Коэффициент загрузки U = {load:.2f}.")
+    print(f"Условие U <= 1: {'выполнено' if load <= 1 else 'не выполнено'}.")
+    print(
+        "Все дедлайны выполнимы: "
+        f"{'да' if all_deadlines_feasible else 'нет'}."
+    )
+    print(f"Архитектура: {architecture}.")
+
+
+def main() -> None:
+    # Если при запуске передали имя файла, берем его. Иначе берем по умолчанию tasks.json
+    filename = sys.argv[1] if len(sys.argv) > 1 else "specifications.json"
+    
+    # Собираем путь (теперь имя файла находится в переменной filename)
+    data_file = Path(__file__).resolve().parent.parent / "data" / filename
+
+    if not data_file.exists():
+        print(f"Ошибка: Файл не найден по пути {data_file}")
+        return
+
+    tasks, n_cpu, has_network, system_name = load_data(str(data_file))
+    
+    print(f"Вариант: {system_name}")
+    print(f"Процессоров: {n_cpu}")
+    print(f"Сеть: {'есть' if has_network else 'нет'}\n")
+
+    print_table(tasks)
+    print_conclusion(tasks, system_name, n_cpu, has_network)
+
+
+if __name__ == "__main__":
+    main()

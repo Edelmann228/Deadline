@@ -82,3 +82,9 @@ def format_number(value: float) -> str:
     if value.is_integer():
         return str(int(value))
     return f"{value:.2f}"
+## вывод таблицы
+def print_table(tasks: List[Task]) -> None:
+    headers = [
+        "Задача", "Класс", "C", "D", "T",
+        "L", "Выполнимо", "Тип дедлайна"
+    ]

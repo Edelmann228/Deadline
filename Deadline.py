@@ -59,3 +59,11 @@ def critical_task(tasks: List[Task]) -> Optional[Task]:
         return None
 
     return min(hard_tasks, key=slack)
+## определение требуемого времени реакции системы
+def required_reaction_time(tasks: List[Task]) -> float:
+    hard_tasks = [task for task in tasks if task.task_class == "жёсткое"]
+
+    if hard_tasks:
+        return min(task.D for task in hard_tasks)
+
+    return min(task.D for task in tasks)

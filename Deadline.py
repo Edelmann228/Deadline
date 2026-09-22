@@ -32,4 +32,6 @@ def load_data(file_path: str):
 
     system = data["system"]
     return tasks, system["n_cpu"], system["has_network"], system["name"]
-
+##Расчет временного резерва
+def slack(task: Task) -> float:
+    return task.D - task.C

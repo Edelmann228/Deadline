@@ -103,6 +103,7 @@ def print_table(tasks: List[Task]) -> None:
         ])
         widths = [len(header) for header in headers]
 
+
     for row in rows:
         for index, value in enumerate(row):
             widths[index] = max(widths[index], len(value))
@@ -164,10 +165,10 @@ def print_conclusion(
 
 
 def main() -> None:
-    # Если при запуске передали имя файла, берем его. Иначе берем по умолчанию tasks.json
+    
     filename = sys.argv[1] if len(sys.argv) > 1 else "specifications.json"
     
-    # Собираем путь (теперь имя файла находится в переменной filename)
+   
     data_file = Path(__file__).resolve().parent.parent / "data" / filename
 
     if not data_file.exists():
